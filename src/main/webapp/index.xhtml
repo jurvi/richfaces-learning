@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:a4j="http://richfaces.org/a4j">
+
+<body>
+    <ui:composition template="/templates/template.xhtml">
+
+        <ui:define name="title">RichFaces Sample</ui:define>
+
+        <ui:define name="body">
+
+            <h:form>
+                <a4j:poll id="datePoll" interval="1000" enabled="true" render="poll"></a4j:poll>
+            </h:form>
+
+            <h:form prependId="false">
+
+                <h:outputText id="poll" value="#{pollBean.currentDate}"/>
+
+                <br />
+                <br />
+
+                <h:outputLabel value="Name:" for="nameInput" />
+                <h:inputText id="nameInput" value="#{richBean.name}">
+                    <a4j:ajax event="keyup" render="output" />
+                </h:inputText>
+                <h:panelGroup id="output">
+                    <h:outputText value="Hello #{richBean.name}!"
+                        rendered="#{not empty richBean.name}" />
+                </h:panelGroup>
+                <h:panelGrid>
+                    <a4j:commandButton value="Click Me!" render="out" execute="@form"></a4j:commandButton>
+                    <a4j:commandLink value="Click Me!" render="out2" execute="@form" />
+                    <a4j:commandButton value="Tyhjennä nimi" render="out,out2,output,nameInput" execute="@form">
+                        <a4j:param value="" assignTo="#{richBean.name}"></a4j:param>
+                    </a4j:commandButton>
+                </h:panelGrid>
+            </h:form>
+
+            <br />
+            <span onmouseover="hideText('')">Mouseover me to reset name</span>
+            <br />
+            <br />
+
+
+
+            <a4j:outputPanel id="out">
+                <h:outputText value="Wassup from commandButton #{richBean.name}" rendered="#{not empty richBean.name}"></h:outputText>
+            </a4j:outputPanel>
+
+            <br />
+            <br />
+
+
+            <a4j:outputPanel id="out2">
+                <h:outputText value="commandLink salutes you #{richBean.name}" rendered="#{not empty richBean.name}"></h:outputText>
+            </a4j:outputPanel>
+
+            
+            <h:form>
+                <a4j:jsFunction name="hideText" render="out,out2,nameInput,output">
+                    <a4j:param name="text" assignTo="#{richBean.name}"/>
+                </a4j:jsFunction>
+            </h:form>
+
+            <a4j:outputPanel layout="block" id="divId">
+                Tämän pitäisi olla omassa divissä
+            </a4j:outputPanel>
+
+            <a4j:outputPanel layout="inline" id="spanId">
+                Tämän pitäisi olla omassa spanissa
+            </a4j:outputPanel>
+
+        </ui:define>
+    </ui:composition>
+</body>
+</html>
